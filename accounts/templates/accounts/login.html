@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Login Page</title>
+</head>
+<body>
+{% extends "layouts/simple.html" %}
+{% block content %}
+	<!-- registration-form -->
+	<div class="registration-form">
+		<div class="container">
+			<div class="dreamcrub">
+				<ul class="breadcrumbs">
+					<li class="home">
+						<a href="index.html" title="Go to Home Page">Home</a>&nbsp;
+						<span>&gt;</span>
+					</li>
+					<li class="women">
+						Login
+					</li>
+				</ul>
+				<ul class="previous">
+					<li><a href="/products">Browse all products</a></li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+
+			
+			<h2>Login</h2>
+			<div class="registration-grids">
+				<div class="reg-form">
+					<div class="reg">
+						<p>Welcome, please enter your credentials to continue.</p>
+						<p>If you do not have previously registered with us, <a href="/accounts/register">click here to create an account.</a></p>
+						<form action="/accounts/login" method="post">
+							{% csrf_token %}
+							<ul>
+								<li class="text-info">Username: </li>
+								<li>{{ form.username }}</li>
+							</ul>
+							<ul>
+								<li class="text-info">Password: </li>
+								<li>{{ form.password }}</li>
+							</ul>
+
+							<input type="submit" value="LOGIN"/>
+
+						</form>
+					</div>
+				</div>
+				<div class="reg-right">
+
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+</body>
+</html>

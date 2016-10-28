@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html >
+<head>
+	<title></title>
+</head>
+<body>
+{% extends "layouts/default.html" %}
+{% block content %}
+
+
+	<!-- content-section-starts -->
+	<div class="container">
+		<div class="products-page">
+
+			<div class="products">
+				<div class="product-listy">
+					<h2>Browse By Brand</h2>
+					<ul class="product-list">
+                        {% for brand in brands %}
+						<li><a href="/brands/{{ brand.id }}">{{ brand.title }}</a></li>
+                        {% endfor %}
+					</ul>
+				</div>
+			</div>
+
+            {% block products_content %}{% endblock %}
+			<div class="clearfix"></div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<!-- content-section-ends -->
+	<div class="other-products">
+		<div class="container">
+			<h3 class="like text-center">{{ featured.title }}</h3>
+			<ul id="flexiselDemo3">
+                {% for p in featured.products %}
+				<li>
+					<a href="/products/{{ p.id }}">
+						<img src="{{p.mainPhoto.url}}" style="width: 220px;" class="img-responsive"/>
+					</a>
+					<div class="product liked-product simpleCart_shelfItem">
+						<a class="like_name" href="/products/{{ p.id }}">{{ p.title }}</a>
+						<p><a class="item_add add_to_cart_button" href="#" data-product_id="{{p.id}}"><i></i> <span class=" item_price">$ {{ p.price }}</span></a></p>
+					</div>
+				</li>
+                {% endfor %}
+			</ul>
+
+            <script type="text/javascript" src="/static/js/jquery.flexisel.js"></script>
+			<script type="text/javascript">
+				$(window).load(function() {
+					$("#flexiselDemo3").flexisel({
+						visibleItems: 4,
+						animationSpeed: 1000,
+						autoPlay: true,
+						autoPlaySpeed: 3000,
+						pauseOnHover: true,
+						enableResponsiveBreakpoints: true,
+						responsiveBreakpoints: {
+							portrait: {
+								changePoint:480,
+								visibleItems: 1
+							},
+							landscape: {
+								changePoint:640,
+								visibleItems: 2
+							},
+							tablet: {
+								changePoint:768,
+								visibleItems: 3
+							}
+						}
+					});
+
+				});
+			</script>
+            <script type="text/javascript" src="/static/js/cart.js"></script>
+		</div>
+	</div>
+	<!-- content-section-ends-here -->
+
+
+{% endblock %}
+
+</body>
+</html>
