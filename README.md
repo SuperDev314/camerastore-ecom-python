@@ -23,7 +23,12 @@ Open `tradenity_python_django_sample.settings`, modify this line:
 
 `Tradenity.API_KEY = 'sk_xxxxxxxxxxxxxxxxx'` 
 
-to reflect your store's API key
+to reflect your store's API key.
+
+If you configured your store to use stripe for payment processing, then edit this line:
+
+`STRIPE_PUBLIC_KEY = 'pk_xxxxxxxxxxxxxxxxxxxxxxxxxx'` to reflect your public key.
+
 
 ## Install requirements
 
