@@ -1,0 +1,10 @@
+<form id="shipping-method-form" action="/orders/shipping" method="post">
+    {% csrf_token %}
+    <ul>
+        <li class="text-info">Shipping method: </li>
+        <li>{{ shipping_form.shipping_method }}</li>
+    </ul>
+    <p style="display: none;" id="shipping_error_message"></p>
+    <input type="submit" value="Submit" />
+</form>
+

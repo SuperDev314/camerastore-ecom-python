@@ -5,6 +5,7 @@
 </head>
 <body>
 {% extends "layouts/products.html" %}
+{% load mathfilters %}
 {% block products_content %}
 
 		<div class="new-product">
@@ -21,8 +22,8 @@
 			</div>
 			<div class="col-md-7 dress-info">
 				<div class="dress-name">
-					<h3>{{ product.title }}</h3>
-					<span>$ {{ product.price }}</span>
+					<h3>{{ product.name }}</h3>
+					<span>$ {{ product.price|div:100 }}</span>
 					<div class="clearfix"></div>
 					<p>{{ product.description }}</p>
 

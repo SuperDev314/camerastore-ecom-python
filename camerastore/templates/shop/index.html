@@ -106,15 +106,15 @@
 		</style>
         {% for coll in collections %}
 		<div class="container collections" >
-			<h3 class="like text-center">{{ coll.title }}</h3>
-			<ul id="{{coll.name}}" class="flexiselDemo3">
+			<h3 class="like text-center">{{ coll.name }}</h3>
+			<ul id="{{coll.slug}}" class="flexiselDemo3">
             {% for p in coll.products %}
 				<li>
 					<a href="/products/{{ p.id }}">
-						<img src="{{p.mainPhoto.url}}" class="img-responsive" alt="" />
+						<img src="{{p.main_photo.url}}" class="img-responsive" alt="" />
 					</a>
 					<div class="product liked-product simpleCart_shelfItem">
-						<a class="like_name" href="/products/{{ p.id }}">{{ p.title }}</a>
+						<a class="like_name" href="/products/{{ p.id }}">{{ p.name }}</a>
 						<p><a class="item_add add_to_cart_button" data-product_id="{{p.id}}"><i></i> <span class=" item_price">$ {{ p.price }}</span></a></p>
 					</div>
 				</li>

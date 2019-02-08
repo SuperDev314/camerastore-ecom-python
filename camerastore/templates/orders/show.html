@@ -6,6 +6,7 @@
 <body>
 
 {% extends "layouts/simple.html" %}
+{% load mathfilters %}
 {% block content %}
     <!-- checkout -->
     <div class="cart-items">
@@ -39,11 +40,11 @@
                 </tr>
                 <tr>
                     <th>Creation Date</th>
-                    <td>{{ order.createdAt }}</td>
+                    <td>{{ order.created_at }}</td>
                 </tr>
                 <tr>
                     <th>Total price</th>
-                    <td>{{ order.total }}</td>
+                    <td>{{ order.total|div:100 }}</td>
                 </tr>
                 <tr>
                     <th>Status</th>
@@ -68,10 +69,10 @@
                             <tbody>
                             {% for i in order.items %}
                             <tr>
-                                <td>{{ i.product.title }}</td>
+                                <td>{{ i.product.name }}</td>
                                 <td>{{ i.quantity }}</td>
-                                <td>{{ i.unitPrice }}</td>
-                                <td>{{ i.total }}</td>
+                                <td>{{ i.unit_price|div:100 }}</td>
+                                <td>{{ i.total|div:100 }}</td>
                             </tr>
                             {% endfor %}
                             </tbody>

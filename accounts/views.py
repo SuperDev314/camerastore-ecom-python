@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from accounts.forms import LoginForm, RegistrationForm
 from django.contrib.auth import login as django_login, authenticate, logout as django_logout
 
-from tradenity.sdk.entities import Customer
+from tradenity import Customer
 
 
 def login(request):
@@ -34,7 +34,7 @@ def register(request):
         form = RegistrationForm(data=request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            customer = Customer(firstName=cd['first_name'], lastName=cd['last_name'], email=cd['email'],
+            customer = Customer(first_name=cd['first_name'], last_name=cd['last_name'], email=cd['email'],
                                 username=cd['username'], password=cd['password'])
             customer.create()
             return redirect('/accounts/login')

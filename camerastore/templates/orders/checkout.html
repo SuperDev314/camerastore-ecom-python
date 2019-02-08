@@ -6,190 +6,289 @@
 <body>
 
 {% extends "layouts/simple.html" %}
+{% load mathfilters %}
 {% block content %}
-	<!-- checkout -->
-	<div class="cart-items">
-		<div class="container">
-			<div class="dreamcrub">
-				<ul class="breadcrumbs">
-					<li class="home">
-						<a href="index.html" title="Go to Home Page">Home</a>&nbsp;
-						<span>&gt;</span>
-					</li>
-					<li>
-						Checkout
-					</li>
-				</ul>
-				<ul class="previous">
-					<li><a href="/cart">Back to shopping cart</a></li>
-				</ul>
-				<div class="clearfix"></div>
-			</div>
-			<h2>Order Information </h2>
-            <p>
-                {{ form.errors }}
-            </p>
-			<div class="registration-grids reg">
-				<form id="payment-form" action="/orders/create" method="post">
-                    {% csrf_token %}
-					<input type="hidden" name="token" value="" />
-					<div class="reg-form">
-						<div>
-							<h3>Personal Information</h3>
+<!-- checkout -->
+<div class="cart-items">
+	<div class="container">
+		<div class="dreamcrub">
+			<ul class="breadcrumbs">
+				<li class="home">
+					<a href="index.html" title="Go to Home Page">Home</a>&nbsp;
+					<span>&gt;</span>
+				</li>
+				<li>
+					Checkout
+				</li>
+			</ul>
+			<ul class="previous">
+				<li><a href="/cart">Back to shopping cart</a></li>
+			</ul>
+			<div class="clearfix"></div>
+		</div>
+		<h2>Complete Your Order </h2>
+		<div class="registration-grids reg">
 
-							<ul>
-								<li class="text-info">First Name: </li>
-								<li>{{ form.customer_firstName }}</li>
-							</ul>
-							<ul>
-								<li class="text-info">Last Name: </li>
-								<li>{{ form.customer_lastName }}</li>
-							</ul>
-							<ul>
-								<li class="text-info">Email: </li>
-								<li>{{ form.customer_email }}</li>
-							</ul>
-
-
-							<h3>Billing Address</h3>
-							<ul>
-								<li class="text-info">Address Line 1: </li>
-								<li>{{ form.billingAddress_streetLine1 }}</li>
-							</ul>
-							<ul>
-								<li class="text-info">Address Line 2:</li>
-								<li>{{ form.billingAddress_streetLine2 }}</li>
-							</ul>
-							<ul>
-								<li class="text-info">City:</li>
-								<li>{{ form.billingAddress_city }}</li>
-							</ul>
-							<ul>
-								<li class="text-info">State:</li>
-								<li>{{ form.billingAddress_state }}</li>
-							</ul>
-							<ul>
-								<li class="text-info">Zip code:</li>
-								<li>{{ form.billingAddress_zipCode }}</li>
-							</ul>
-							<ul>
-								<li class="text-info">Country:</li>
-								<li>{{ form.billingAddress_country }}</li>
-							</ul>
-							<h3>Shipping Address</h3>
-							<ul>
-								<li><input type="checkbox" value="" /></li>
-								<li class="text-info">Same as Billing address: </li>
-							</ul>
-							<div id="shipping_address_container">
-								<ul>
-									<li class="text-info">Address Line 1: </li>
-									<li>{{ form.shippingAddress_streetLine1 }}</li>
-								</ul>
-								<ul>
-									<li class="text-info">Address Line 2:</li>
-									<li>{{ form.shippingAddress_streetLine2 }}</li>
-								</ul>
-								<ul>
-									<li class="text-info">City:</li>
-									<li>{{ form.shippingAddress_city }}</li>
-								</ul>
-								<ul>
-									<li class="text-info">State:</li>
-									<li>{{ form.shippingAddress_state }}</li>
-								</ul>
-								<ul>
-									<li class="text-info">Zip code:</li>
-									<li>{{ form.shippingAddress_zipCode }}</li>
-								</ul>
-								<ul>
-									<li class="text-info">Country:</li>
-									<li>{{ form.shippingAddress_country }}</li>
-								</ul>
-							</div>
-
+			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingOne">
+						<h3 class="panel-title">
+							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								ORDER SUMMERY
+							</a>
+						</h3>
+					</div>
+					<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+						<div class="panel-body">
+							<table class="table">
+								<thead>
+								<tr>
+									<th>Product</th>
+									<th>Quantity</th>
+									<th>Unit Price</th>
+									<th>Sub-Total</th>
+									<th>Taxes</th>
+								</tr>
+								</thead>
+								<tbody>
+								{% for i in cart.items %}
+								<tr>
+									<td>{{i.product.name}}</td>
+									<td>{{i.quantity}}</td>
+									<td>{{i.unit_price|div:100.0}}</td>
+									<td>{{i.subtotal|div:100.0}}</td>
+									<td>{{i.tax_amount|div:100.0}}</td>
+								</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+							<hr>
+							<button id="invoice-info-trigger-button">Continue</button>
 						</div>
 					</div>
-					<div class="reg-right">
-						<h3>Credit Card Information</h3>
-						<ul>
-							<li class="text-info">Card Holder Name: </li>
-							<li><input id="card_holder_name" type="text" value="" /></li>
-						</ul>
-						<ul>
-							<li class="text-info">Card Number: </li>
-							<li><input id="card_number" type="text" value="4242424242424242" data-stripe="number"/></li>
-						</ul>
-						<ul>
-							<li class="text-info">CVC: </li>
-							<li><input id="cvc" type="text" value="123" data-stripe="cvc"/></li>
-						</ul>
-						<ul>
-							<li class="text-info">Expiration Date: </li>
-							<li>
-								Month: <input type="text" value="12" style="width: 100px;" data-stripe="exp-month"/>
-								Year: <input type="text" value="2017" style="width: 100px;" data-stripe="exp-year"/>
-							</li>
-						</ul>
-						<p style="display: none;" id="card_error_message"></p>
-						<input type="submit" value="PLACE ORDER" />
-						<p class="click">By clicking this button, you are agree to my  <a href="#">Policy Terms and Conditions.</a></p>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingTwo">
+						<h3 class="panel-title">
+							<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#invoice-info-container" aria-expanded="false" aria-controls="invoice-info-container">
+								INVOICE INFORMATION
+							</a>
+						</h3>
 					</div>
-					<div class="clearfix"></div>
+					<div id="invoice-info-container" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+						<div class="panel-body">
+							<div class="reg-form">
+								<form id="customer-info-form" action="/orders/create" method="post">
+									{% csrf_token %}
+									<div>
+										<h3>Personal Information</h3>
+
+										<ul>
+											<li class="text-info">First Name: </li>
+											<li>{{ form.customer_firstName }}</li>
+										</ul>
+										<ul>
+											<li class="text-info">Last Name: </li>
+											<li>{{ form.customer_lastName }}</li>
+										</ul>
+										<ul>
+											<li class="text-info">Email: </li>
+											<li>{{ form.customer_email }}</li>
+										</ul>
 
 
-				</form>
-
+										<h3>Billing Address</h3>
+										<ul>
+											<li class="text-info">Address Line 1: </li>
+											<li>{{ form.billingAddress_streetLine1 }}</li>
+										</ul>
+										<ul>
+											<li class="text-info">Address Line 2:</li>
+											<li>{{ form.billingAddress_streetLine2 }}</li>
+										</ul>
+										<ul>
+											<li class="text-info">City:</li>
+											<li>{{ form.billingAddress_city }}</li>
+										</ul>
+										<ul>
+											<li class="text-info">State:</li>
+											<li>{{ form.billingAddress_state }}</li>
+										</ul>
+										<ul>
+											<li class="text-info">Zip code:</li>
+											<li>{{ form.billingAddress_zipCode }}</li>
+										</ul>
+										<ul>
+											<li class="text-info">Country:</li>
+											<li>{{ form.billingAddress_country }}</li>
+										</ul>
+										<h3>Shipping Address</h3>
+										<ul>
+											<li><input type="checkbox" value="" /></li>
+											<li class="text-info">Same as Billing address: </li>
+										</ul>
+										<div id="shipping_address_container">
+											<ul>
+												<li class="text-info">Address Line 1: </li>
+												<li>{{ form.shippingAddress_streetLine1 }}</li>
+											</ul>
+											<ul>
+												<li class="text-info">Address Line 2:</li>
+												<li>{{ form.shippingAddress_streetLine2 }}</li>
+											</ul>
+											<ul>
+												<li class="text-info">City:</li>
+												<li>{{ form.shippingAddress_city }}</li>
+											</ul>
+											<ul>
+												<li class="text-info">State:</li>
+												<li>{{ form.shippingAddress_state }}</li>
+											</ul>
+											<ul>
+												<li class="text-info">Zip code:</li>
+												<li>{{ form.shippingAddress_zipCode }}</li>
+											</ul>
+											<ul>
+												<li class="text-info">Country:</li>
+												<li>{{ form.shippingAddress_country }}</li>
+											</ul>
+										</div>
+										<input type="submit" >
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingThree">
+						<h3 class="panel-title">
+							<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#shipping-method-panel" aria-expanded="false" aria-controls="shipping-method-panel">
+								SHIPPING METHOD
+							</a>
+						</h3>
+					</div>
+					<div id="shipping-method-panel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						<div class="panel-body">
+							<div class="registration-grids reg">
+								<div class="reg-form" id="shipping-form-container">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingFour">
+						<h3 class="panel-title">
+							<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#payment-panel" aria-expanded="false" aria-controls="payment-panel">
+								PAYMENT DETAILS
+							</a>
+						</h3>
+					</div>
+					<div id="payment-panel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						<div class="panel-body">
+							<div class="registration-grids reg">
+								<div class="reg-form" id="payment-form-container">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+
+
+
+			<div class="clearfix"></div>
+
+
+
+
 		</div>
 	</div>
+</div>
 
-	<!-- //checkout -->
+<!-- //checkout -->
 
 
 {% endblock %}
 {% block page_js %}
 
-	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
-	<script>
-		Stripe.setPublishableKey('{{ stripe_pub_key }}');
-		var purchase = {
-			tokenAvailable:false,
-			paymentForm:$("#payment-form"),
-			submitForm:function(token){
-				purchase.paymentForm.find('input[name=token]').val(token);
-				purchase.paymentForm[0].submit()
-			},
-			showInvalidCardMessage:function(error){
-				$('#card_error_message').show().text(error.message);
-			},
-			stripeResponseHandler:function(status, response){
-				console.log(response);
-				if(status == 200){
-					purchase.paymentForm.find('input[type=submit]').prop('disabled', false);
-					purchase.submitForm(response.id);
-				}else{
-					purchase.paymentForm.find('input[type=submit]').prop('disabled', false);
-					purchase.showInvalidCardMessage(response.error);
-				}
-			}
-		};
-		$(function(){
-			$(purchase.paymentForm).submit(function(event) {
-				if(!purchase.tokenAvailable) {
-					// Disable the submit button to prevent repeated clicks
-					purchase.paymentForm.find('input[type=submit]').prop('disabled', true);
+<script >
 
-					Stripe.card.createToken(purchase.paymentForm, purchase.stripeResponseHandler);
+    function handle_submit_form(form_selector, success){
+        $(document).on("submit", form_selector, function(e) {
+            var form = $(this);
+            var url = form.attr('action');
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(), // serializes the form's elements.
+                success: success,
+                error: function (jqXHR, textStatus, errorMessage) {
+                    alert("Error submitting form.");
+                }
+            });
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        });
+    }
 
-					// Prevent the form from submitting with the default action
-					return false;
-				}
-			});
+    Stripe.setPublishableKey("{{stripe_pub_key}}");
 
-		});
-	</script>
+    var PaymentFlow = function(form_selector){
+        this.tokenAvailable = false;
+        this.paymentForm = $(form_selector);
+    };
+
+    PaymentFlow.prototype.submitForm = function(token){
+        this.paymentForm.find('input[name=token]').val(token);
+        this.paymentForm[0].submit();
+    };
+    PaymentFlow.prototype.showInvalidCardMessage= function(error){
+        $('#card_error_message').show().text(error.message);
+    };
+
+    PaymentFlow.prototype.stripeResponseHandler = function(status, response) {
+        if (status === 200) {
+            this.paymentForm.find('input[type=submit]').prop('disabled', false);
+            this.submitForm(response.id);
+        } else {
+            this.paymentForm.find('input[type=submit]').prop('disabled', false);
+            this.showInvalidCardMessage(response.error);
+        }
+    };
+
+    $(function(){
+        $("#invoice-info-trigger-button").click(function(){
+            $("#invoice-info-container").collapse('show');
+        });
+        handle_submit_form("#customer-info-form", function(data){
+            $("#shipping-method-panel").collapse('show');
+            $("#shipping-form-container").html(data);
+        });
+        handle_submit_form("#shipping-method-form", function(data){
+            $("#payment-panel").collapse('show');
+            $("#payment-form-container").html(data);
+        });
+
+
+        $(document).on("submit", "#payment-form",  function(e) {
+            var paymentFlow = new PaymentFlow("#payment-form");
+
+            if(!paymentFlow.tokenAvailable) {
+                // Disable the submit button to prevent repeated clicks
+                paymentFlow.paymentForm.find('input[type=submit]').prop('disabled', true);
+
+                Stripe.card.createToken(paymentFlow.paymentForm, function(status, response){
+                    paymentFlow.stripeResponseHandler(status, response);
+                });
+                // Prevent the form from submitting with the default action
+                e.preventDefault();
+            }
+        });
+    });
+</script>
 {% endblock %}
 </body>
 </html>

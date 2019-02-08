@@ -1,9 +1,13 @@
-from django.forms import Form, CharField, IntegerField
+from django.forms import Form, ChoiceField, CharField, IntegerField, Select
 
 
 class CartItemForm(Form):
     product = CharField()
     quantity = IntegerField()
+
+
+class ShippingMethodForm(Form):
+    shipping_method = ChoiceField(label='Shipping method')
 
 
 class CheckoutForm(Form):
@@ -13,14 +17,14 @@ class CheckoutForm(Form):
     billingAddress_streetLine1 = CharField(label='StreetLine 1')
     billingAddress_streetLine2 = CharField(label='StreetLine 2')
     billingAddress_city = CharField(label='City')
-    billingAddress_state = CharField(label='State')
+    billingAddress_state = ChoiceField(label='State')
     billingAddress_zipCode = CharField(label='Zip Code')
-    billingAddress_country = CharField(label='Country')
+    billingAddress_country = ChoiceField(label='Country')
     shippingAddress_streetLine1 = CharField(label='StreetLine 1')
     shippingAddress_streetLine2 = CharField(label='StreetLine 2')
     shippingAddress_city = CharField(label='City')
-    shippingAddress_state = CharField(label='State')
+    shippingAddress_state = ChoiceField(label='State')
     shippingAddress_zipCode = CharField(label='Zip Code')
-    shippingAddress_country = CharField(label='Country')
+    shippingAddress_country = ChoiceField(label='Country')
 
 

@@ -6,6 +6,7 @@
 <body>
 
 {% extends "layouts/simple.html" %}
+{% load mathfilters %}
 {% block content %}
     <!-- checkout -->
     <div class="cart-items">
@@ -49,7 +50,7 @@
                             <a href="/orders/{{o.id}}">{{ o.id }}</a>
                         </td>
                         <td>{{ o.createdAt }}</td>
-                        <td>{{ o.total }}</td>
+                        <td>{{ o.total|div:100 }}</td>
                         <td>{{ o.status }}</td>
                         <td>
                             <form action="/orders/refund/{{o.id}}" method="post">

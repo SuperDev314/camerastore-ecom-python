@@ -15,7 +15,9 @@ urlpatterns = [
     url(r'^cart/remove/(?P<item_id>[^/]+)', cart.remove_from_cart),
     url(r'^orders$', orders.index),
     url(r'^orders/checkout$', orders.checkout),
-    url(r'^orders/create$', orders.place_order),
+    url(r'^orders/create$', orders.create_order),
+    url(r'^orders/shipping$', orders.add_shipping),
+    url(r'^orders/payment$', orders.place_order),
     url(r'^orders/refund/(?P<order_id>[^/]+)', orders.refund),
     url(r'^orders/(?P<order_id>[^/]+)', orders.show),
 ]

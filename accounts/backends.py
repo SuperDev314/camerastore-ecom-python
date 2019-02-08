@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
-from tradenity.sdk.entities import Customer
+from tradenity import Customer, is_valid_password
 
 
 class CustomerUserAuthBackend(object):
     def authenticate(self, username=None, password=None):
-        customer = Customer.find_by_username(username)
-        if customer is not None and customer.is_valid_password(password):
+        customer = Customer.find_one_by(username=username)
+        if customer is not None and is_valid_password(customer, password):
             try:
                 user = User.objects.get(username=username)
             except User.DoesNotExist:

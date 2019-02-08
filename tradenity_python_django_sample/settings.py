@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from tradenity.sdk import Tradenity
+from tradenity import Configuration
 from tradenity_django.sdk.ext.auth import DjangoAuthTokenHolder
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -136,7 +136,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-STRIPE_PUBLIC_KEY = 'pk_xxxxxxxxxxxxxxxxx'
-
-Tradenity.API_KEY = 'sk_xxxxxxxxxxxxxxxx'
-Tradenity.TOKEN_HOLDER = DjangoAuthTokenHolder
+Configuration.API_KEY = 'sk_xxxxxxxxxxxxxxxxxxxxxxxx'
+Configuration.AUTH_TOKEN_HOLDER = DjangoAuthTokenHolder()
+STRIPE_PUBLIC_KEY = 'pk_xxxxxxxxxxxxxxxxxxxxxxxxxx'
